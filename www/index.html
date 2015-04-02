@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>School Finder Application</title>
+
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/static/styles/bootstrap-additions.min.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>
+
+        <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+        <link href="css/ionic.app.css" rel="stylesheet">
+        -->
+
+        <!-- ionic/angularjs js -->
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ng-cordova.min.js"></script>
+        <script src="lib/angular-strap/dist/angular-strap.min.js"></script>
+        <script src="lib/angular-strap/dist/angular-strap.tpl.min.js"></script>
+
+
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
+
+        <!-- your app's js -->
+        <script src="js/app.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/directives.js"></script>
+</head>
+
+  <body ng-app="starter">
+    <!--
+      The nav bar that will be updated as we navigate between views.s
+    -->
+   
+    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="SchoolDetailCtrl">
+        <ion-nav-back-button class="button-clear" ng-click="myGoBack()"> <i class="ion-arrow-left-c"></i> Back
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view animation="slide-left-right">
+    </ion-nav-view>
+
+          <!--school list view template-->
+
+    <script id="templates/tab-schools.html" type="text/ng-template">
+     <ion-view view-title="Schools Finder">
+        <ion-content >
+       
+          <div class="button-bar">
+             <div class="row">
+                 <div class="col"><a class="button button-block" ng-class="{'button-positive': isActive('List')}" ng-click="setActive('List')" href="#/tab/schools">List</a></div>
+                 <div class="col"> <a class="button button-block" ng-class="{'button-positive': isActive('Map')}" ng-click="setActive('Map')" href="#/tab/map">Map</a></div>
+              </div>
+          </div>
+          
+           <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+          <div class="list" class="animate-repeat" ng-repeat="school in filtered = (schools | filter: search)">
+
+              <a class="item item-thumbnail-left" href="#/tab/schools/{{school.id}}">
+                 <img src="{{school.logo}}">
+              <h2>{{school.schoolname}}</h2>
+              
+
+          <div class="row">
+               <div class="col"><button class="button button-small button-dark">{{school.SchoolBoard}}</button>
+               </div>
+               <div class="col"><i class="ion-stats-bars"></i> {{school.Ratings}}</div>
+               <div class="col"><button class="button button-small button-assertive">{{school.SchoolClass}}</button></div>
+               <div class="col"><i class="ion-arrow-move"></i> {{school.Distance}} Km</div>
+               </div>
+              </a>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+         
+          <!--school search view template-->
+
+    <script id="templates/tab-search.html" type="text/ng-template">
+    <ion-view view-title="School Finder">
+      <ion-content class="has-header padding">
+
+    <form ng-submit="search()" role="form">
+
+      <ul class="list">
+        <li class=" item-checkbox">
+        <label class="checkbox">
+        <input type="checkbox"  ng-model="schoolname" ng-true-value="schoolname"  data-ng-false-value=''>
+        </label>
+       <i class="fa fa-graduation-cap"></i>  School Name
+        </li>
+        </ul>
+
+      
+      <div class="form-group">
+      
+        <input type="text" class="form-control" name="q" ng-model="schoolname" bs-options="school for school in schools" placeholder="Enter School Name" bs-typeahead>
+      </div>
+
+       <ul class="list">
+        <li class=" item-checkbox">
+        <label class="checkbox">
+        <input type="checkbox" name="somethign" value="2" ng-model="checked">
+        </label>
+        <i class="fa fa-home"></i> Address or Postal code <small></small>
+        </li>
+        </ul>
+
+     <div class="form-group">
+        <input type="text" class="form-control" ng-model="selectedAddress" data-animation="am-flip-x" bs-options="address.formatted_address as address.formatted_address for address in getAddress($viewValue)" placeholder="Enter address" bs-typeahead>
+      </div>
+
+      <div class="list">
+        <label class="item item-input item-select">
+        <div class="input-label">
+        Distance
+        </div>
+        <select ng-model="Distance" name="km">
+        <option>5 Km</option>
+        <option selected>10 Km</option>
+        <option>15 Km</option>
+        </select>
+        </label>
+        </div>
+      
+      <div class="padding">
+        <button class="button button-block button-positive" type="submit"><i class='fa fa-search'></i>  Find My School!!</button>
+      </div>
+     </form>
+
+        </ion-content>
+      </ion-view>
+    </script>
+ <!--school map view template-->
+
+  <script id="templates/map.html" type="text/ng-template">
+    <ion-view view-title="Map View">
+      <ion-content scroll="false">
+        <div class="button-bar">
+
+          <div class="row">
+          <div class="col"><a class="button button-block" ng-class="{'button-positive': isActive('List')}" ng-click="setActive('List')" href="#/tab/schools">List</a></div>
+          <div class="col"> <a class="button button-block" ng-class="{'button-positive': isActive('Map')}" ng-click="setActive('Map')" href="#/tab/map">Map</a></div>
+
+          
+          </div>
+          </div>
+          <div class="row">
+          <div class="col">
+
+       
+        <map zoom="11" center="[13.084695, 80.225160]">
+        <marker ng-repeat="p in positions" position="{{p}}" on-click="showInfoWindow(event, p)"></marker>
+
+        </map>
+        
+   
+
+          </div>
+          </diV>
+        </ion-content>
+    </ion-view>
+  </script> 
+
+
+   <script id="templates/tab-results.html" type="text/ng-template">
+    <ion-view view-title="School Finder">
+      <ion-content class="padding">
+        <div class="button-bar">
+           <div class="row">
+              <div class="col"><a class="button button-block" ng-class="{'button-positive': isActive('List')}" ng-click="setActive('List')" href="#/tab/schools">List</a></div>
+              <div class="col"> <a class="button button-block" ng-class="{'button-positive': isActive('Map')}" ng-click="setActive('Map')" href="#/tab/map">Map</a></div>
+           </div>
+        </div>
+          
+          <div class="row">
+          <div class="col">
+           <h3 align="center" ng-hide="filtered.length"><span style="color:red;">Search returned 0 Schools</span></h3>
+           <h3 align="center" ng-show="filtered.length"><span style="color:red;">Search returned {{ filtered.length }} Schools</span></h3>
+          </div>
+          </div>
+
+           <div class="list" class="animate-repeat" ng-repeat="school in filtered = (schools | filter: schoolname:strict )">
+
+              <a class="item item-thumbnail-left" href="#/tab/schools/{{school.id}}">
+                 <img src="{{school.logo}}">
+              <h2>{{school.schoolname}}</h2>
+              
+
+          <div class="row">
+               <div class="col"><button class="button button-small button-dark">{{school.SchoolBoard}}</button>
+               </div>
+               <div class="col"><i class="ion-stats-bars"></i> {{school.Ratings}}</div>
+               <div class="col"><button class="button button-small button-dark">{{school.SchoolClass}}</button></div>
+               <div class="col"><i class="ion-arrow-move"></i> {{school.Distance}} Km</div>
+               </div>
+              </a>
+          </div>
+
+        
+
+         
+        </ion-content>
+    </ion-view>
+  </script> 
+
+  <script id="templates/school-details.html" type="text/ng-template">
+  <ion-nav-back-button class="button-clear"
+    ng-click="myGoBack()">
+    <i class="ion-arrow-left-c"></i> Back
+  </ion-nav-back-button>
+    <ion-view view-title="School Finder">
+       <ion-content class="padding">
+
+       <div class="list">
+       <a class="item item-thumbnail-left">
+                 <img src="{{school.logo}}">
+              <h2>{{school.SchoolName}}</h2>
+
+          <div class="row">
+               <div class="col"><button class="button button-small button-dark">{{school.SchoolBoard}}</button>
+               </div>
+               <div class="col"><i class="ion-stats-bars"></i> {{school.Ratings}}</div>
+               <div class="col"><button class="button button-small button-dark">{{school.SchoolClass}}</button></div>
+              </div>
+              </a>
+          </div>
+          </div>
+     
+    <div class="row"> <!--row 1 start-->
+         <div class="col">
+            <map zoom="11" center="[13.084695, 80.225160]" on-zoom_changed="zoomChanged()">
+               <marker position="{{school.Latitude}}, {{school.Longitude}}" on-click="click()" title="Click to zoom"></marker> 
+            </map>
+         </div>
+    </div><!--row 1 end-->
+
+
+    <div class="row"> <!--row 2 start-->
+        <div class="col">
+          <h6>School Pass Rate</h6>
+              <div ng-init="rating = star.rating + 5"></div>
+              <div class="star-rating" star-rating rating-value="rating" data-max="10" on-rating-selected="rateFunction(rating)"></div>
+        </div>
+    </div> <!--row 2 start-->
+
+    <div class="row">  <!--row 3 start-->
+         <div class="col">Contact E-mail</div>
+         <div class="col">{{school.email}}</div>
+   </div>  <!--row 3 end-->
+
+   <div class="row">  <!--row 4 start-->
+         <div class="col">Address</div>
+         <div class="col">{{school.Address}}</div>
+   </div>  <!--row 4 end-->
+
+    <div class="row">  <!--row 5 start-->
+         <div class="col">Postal</div>
+         <div class="col">{{school.Postal}}</div>
+   </div>  <!--row 5 end-->
+
+   <div class="row">  <!--row 6 start-->
+         <div class="col">Website</div>
+         <div class="col">{{school.url}}</div>
+   </div>  <!--row 6 end-->
+
+   <div class="row">  <!--row 6 start-->
+         <div class="col">Facilities</div>
+         
+            <div class="col" ng-init="facility in facilities">
+
+            <a class="button button-small button-positive">
+            {{school.facilities[0]}}
+            </a>
+            <a class="button button-small button-positive">
+            {{school.facilities[1]}}
+            </a><br><br>
+            <a class="button button-small button-positive">
+            {{school.facilities[2]}}
+            </a>
+            <a class="button button-small button-positive">
+            {{school.facilities[3]}}
+            </a><br><br>
+            <a class="button button-small button-positive">
+            {{school.facilities[4]}}
+            </a>
+            </div>
+    </div>  <!--row 6 end-->
+
+  <div class="row">  <!--row 7 start-->
+         <div class="col">Phone</div>
+         <div class="col">{{school.ContactNumber}}</div>
+  </div> 
+
+  <div class="row">  <!--row 8 start-->
+         <div class="col">Fax</div>
+         <div class="col">{{school.fax}}</div>
+   </div> 
+ <div class="row">  <!--row 8 start-->
+         <div class="col">
+         <h6>School Description<h6>
+         <p>{{school.Description}}</p>
+         </div>
+  </div> 
+
+
+
+
+  </ion-content>
+  </ion-view>
+  </script>
+ <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+   
+<script src="http://maps.google.com/maps/api/js"></script>
+<script src="http://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js"></script>
+ 
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7TBS_fkEZKks5AHAqvocTfB0WJeiRluk&sensor=true"></script> -->
+</body>
+</html>

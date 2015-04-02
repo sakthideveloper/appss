@@ -1,0 +1,123 @@
+[
+{
+    "id":0,
+    "SchoolName":"Shri Krishnaswamy Matriculation Higher Secondary School",
+    "SchoolZone":"Chennai",
+    "SchoolBoard":"CBSE",
+    "SchoolClass":"KG-12",
+    "SchoolBranch":"Chennai",
+    "TotalStudent":"1800",
+    "Address":"No 8, 4th Cross Street Sterling Road, Nungambakkam, Near Loyola College & Fresh Juice Corner, Chennai 600034",
+    "Postal":"600027",
+    "Principal":"Sakthi vel",
+    "Founder":"Sakthi vel",
+    "ContactName":"Contact Name",
+    "ContactNumber":"91 - 9585183727",
+    "Landmark":"Golden Temple",
+    "Ratings":"4.5",
+    "url":"http://schools.com",
+    "logo":"http://www.shrikrishnaswamyschools.com/images/topmast.jpg",
+    "Latitude":"18.9288717999999996",
+    "Longitude":"72.822098699999998",
+    "Distance": null
+
+
+}, 
+{
+    "id":0,
+    "SchoolName":"Sishya School",
+    "SchoolZone":"Chennai",
+    "SchoolBoard":"CBSE",
+    "SchoolClass":"KG-LG",
+    "SchoolBranch":"Chennai",
+    "TotalStudent":"1800",
+    "Address":"Chennai",
+    "Postal":"600027",
+    "Principal":"Sakthi vel",
+    "Founder":"Sakthi vel",
+    "ContactName":"Contact Name",
+    "ContactNumber":"91 - 9585183727",
+    "Landmark":"Golden Temple",
+    "Ratings":"5.5",
+    "url":"http://schools.com",
+    "logo":"http://www.thegroveschool.in/images/logo.jpg",
+    "Latitude":"18.9288717999999996",
+    "Longitude":"72.822098699999998",
+    "Distance": null
+
+
+},
+{
+    "id":0,
+    "SchoolName":"Aditi Nursery & Primary School",
+    "SchoolZone":"Chennai",
+    "SchoolBoard":"CBSE",
+    "SchoolClass":"KG-LG",
+    "SchoolBranch":"Chennai",
+    "TotalStudent":"1800",
+    "Address":"Chennai",
+    "Postal":"600027",
+    "Principal":"Sakthi vel",
+    "Founder":"Sakthi vel",
+    "ContactName":"Contact Name",
+    "ContactNumber":"91 - 9585183727",
+    "Landmark":"Golden Temple",
+    "Ratings":"7.5",
+    "url":"http://schools.com",
+    "logo":"http://www.thegroveschool.in/images/logo.jpg",
+    "Latitude":"18.9288717999999996",
+    "Longitude":"72.822098699999998",
+    "Distance": null
+
+
+},
+{
+    "id":0,
+    "SchoolName":"Durga Nursery & Tutorials",
+    "SchoolZone":"Chennai",
+    "SchoolBoard":"CBSE",
+    "SchoolClass":"KG-LG",
+    "SchoolBranch":"Chennai",
+    "TotalStudent":"1800",
+    "Address":"Chennai",
+    "Postal":"600027",
+    "Principal":"Sakthi vel",
+    "Founder":"Sakthi vel",
+    "ContactName":"Contact Name",
+    "ContactNumber":"91 - 9585183727",
+    "Landmark":"Golden Temple",
+    "Ratings":"6.5",
+    "url":"http://schools.com",
+    "logo":"http://www.thegroveschool.in/images/logo.jpg",
+    "Latitude":"18.9288717999999996",
+    "Longitude":"72.822098699999998",
+    "Distance": null
+
+
+},
+{
+    "id":0,
+    "SchoolName":"Jaigopal Garodia Vivekananda Vidyalaya",
+    "SchoolZone":"Chennai",
+    "SchoolBoard":"CBSE",
+    "SchoolClass":"KG-LG",
+    "SchoolBranch":"Chennai",
+    "TotalStudent":"1800",
+    "Address":"Chennai",
+    "Postal":"600027",
+    "Principal":"Sakthi vel",
+    "Founder":"Sakthi vel",
+    "ContactName":"Contact Name",
+    "ContactNumber":"91 - 9585183727",
+    "Landmark":"Golden Temple",
+    "Ratings":"3.5",
+    "url":"http://schools.com",
+    "logo":"http://www.thegroveschool.in/images/logo.jpg",
+    "Latitude":"18.9288717999999996",
+    "Longitude":"72.822098699999998",
+    "Distance": null
+
+
+}
+
+]
